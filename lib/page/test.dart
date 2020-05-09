@@ -1,4 +1,5 @@
 import 'package:base/widget/app_bar.dart';
+import 'package:base/widget/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -8,6 +9,14 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+  PageController _pageController = new PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,27 +27,11 @@ class _TestPageState extends State<TestPage> {
         boxDecoration: BoxDecoration(
             gradient: LinearGradient(colors: [Colors.blueAccent, Colors.blue])),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 300,
-              height: 80,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  border: MyBorder(),
-                ),
-                child: Center(
-                  child: Text('hello'),
-                ),
-              ),
-            )
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+
+        ],
       ),
-//      backgroundColor: Colors.red,
     );
   }
 }
@@ -71,7 +64,8 @@ class MyBorder extends BoxBorder {
     Paint paint = new Paint()
       ..color = Colors.red
       ..strokeWidth = 100
-      ..shader = gradient.createShader(Rect.fromPoints(Offset(0, 10),Offset(100, 100)))
+      ..shader = gradient
+          .createShader(Rect.fromPoints(Offset(0, 10), Offset(100, 100)))
       ..style = PaintingStyle.fill;
     canvas.drawLine(rect.topLeft, rect.topRight, paint);
 //    canvas.drawRect(Rect.fromPoints(Offset(0, 10),Offset(100, 100)), paint);
@@ -91,16 +85,55 @@ class MyBorder extends BoxBorder {
   BorderSide get top => BorderSide();
 }
 
-class _MyGradient extends Gradient {
+class IconAnimatedWidget extends StatefulWidget {
   @override
-  Shader createShader(Rect rect, {TextDirection textDirection}) {
-    LinearGradient(colors: null);
-    return null;
+  _IconAnimatedWidgetState createState() => _IconAnimatedWidgetState();
+}
+
+class _IconAnimatedWidgetState extends State<IconAnimatedWidget>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 300));
+    super.initState();
   }
 
   @override
-  Gradient scale(double factor) {
-    // TODO: implement scale
-    return null;
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            AnimatedIcon(
+              icon: AnimatedIcons.ellipsis_search,
+              progress: _animationController,
+            ),
+            RaisedButton(
+              onPressed: () {
+                if (_animationController.isAnimating) return;
+                _animationController.reverse();
+              },
+              child: Icon(Icons.stop),
+            ),
+            RaisedButton(
+              onPressed: () {
+                if (_animationController.isAnimating) return;
+                _animationController.forward();
+              },
+              child: Icon(Icons.play_arrow),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
