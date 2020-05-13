@@ -37,7 +37,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               if (leading != null)
                 SizedBox(
                   width: 50,
-                  child: leading,
+                  child: GestureDetector(
+                    child: leading,
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               Expanded(
                 child: Container(

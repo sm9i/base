@@ -1,6 +1,11 @@
+import 'package:base/page/canvas_page.dart';
+import 'package:base/page/images_page.dart';
 import 'package:base/page/position_page.dart';
 import 'package:base/page/test.dart';
+import 'package:base/page/text_page.dart';
 import 'package:base/page/theme_page.dart';
+import 'package:base/page/web_view_page.dart';
+import 'package:base/widget/inth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,12 +15,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    //使用InheritedWidget 保存数据
+    return BaseColor(
+      Colors.red,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -59,28 +68,35 @@ class _MyHomePageState extends State<MyHomePage>
             },
           ),
           ListTile(
+            title: Text('images pahge'),
+            onTap: () {
+              _goPage(ImagesPage());
+            },
+          ),
+          ListTile(
             title: Text('position pahge'),
             onTap: () {
               _goPage(PositionPage());
             },
           ),
           ListTile(
-            title: Text('key listener'),
+            title: Text('text page'),
             onTap: () {
-              print("2");
-
-              RawKeyboard.instance.addListener((s) {
-                print(s.data.hashCode);
-              });
+              _goPage(TextPage());
             },
           ),
-          RawKeyboardListener(
-            onKey: (key) {
-              print((key.data as RawKeyEventDataAndroid).keyCode);
+          ListTile(
+            title: Text('canvas page'),
+            onTap: () {
+              _goPage(CanvasPage());
             },
-            focusNode: FocusNode(),
-            child: TextField(),
-          )
+          ),
+          ListTile(
+            title: Text('web page'),
+            onTap: () {
+              _goPage(WebViewPage());
+            },
+          ),
         ],
       ),
     );

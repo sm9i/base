@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio: 3.0.9
   provider: 4.0.5+1
+  flutter_inappwebview: 3.1.0
+  extended_image: 0.7.3+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,7 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:base/widget/app_bar.dart';
 import 'package:base/widget/dots_indicator.dart';
+import 'package:base/widget/image_list.dart';
+import 'package:base/widget/inth_widget.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/physics.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -9,11 +16,19 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-  PageController _pageController = new PageController();
+  List<String> images = [];
+
+  @override
+  void initState() {
+    List.generate(
+        10,
+        (index) => images.add(
+            "https://ss3.bdstatic.com/lPoZeXSm1A5BphGlnYG/skin/48$index.jpg"));
+    super.initState();
+  }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -27,11 +42,17 @@ class _TestPageState extends State<TestPage> {
         boxDecoration: BoxDecoration(
             gradient: LinearGradient(colors: [Colors.blueAccent, Colors.blue])),
       ),
-      body: Column(
-        children: <Widget>[
+      backgroundColor: Colors.white,
 
-        ],
-      ),
+    );
+  }
+}
+
+class A extends BoxScrollView {
+  @override
+  Widget buildChildLayout(BuildContext context) {
+    return Column(
+      children: <Widget>[Text('2')],
     );
   }
 }

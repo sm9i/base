@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///使用InheritedWidget 存数据
 class BaseColor extends InheritedWidget {
   final Color _color;
 
