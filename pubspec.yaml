@@ -14,7 +14,8 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -27,6 +28,8 @@ dependencies:
   provider: 4.0.5+1
   flutter_inappwebview: 3.1.0
   extended_image: 0.7.3+1
+  pull_to_refresh_notification: 0.3.4
+#  ff_annotation_route: 2.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

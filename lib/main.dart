@@ -1,4 +1,5 @@
 import 'package:base/page/canvas_page.dart';
+import 'package:base/page/dialog_page.dart';
 import 'package:base/page/images_page.dart';
 import 'package:base/page/position_page.dart';
 import 'package:base/page/test.dart';
@@ -6,8 +7,10 @@ import 'package:base/page/text_page.dart';
 import 'package:base/page/theme_page.dart';
 import 'package:base/page/web_view_page.dart';
 import 'package:base/widget/inth_widget.dart';
+import 'package:base/widget/route/route_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'app.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,9 +23,13 @@ class MyApp extends StatelessWidget {
       Colors.red,
       child: MaterialApp(
         title: 'Flutter Demo',
+        navigatorKey: App.globalKey,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        navigatorObservers: [
+          RouteManager.routeObserver,
+        ],
         home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
@@ -97,6 +104,13 @@ class _MyHomePageState extends State<MyHomePage>
               _goPage(WebViewPage());
             },
           ),
+          ListTile(
+            title: Text('dialog page'),
+            onTap: () {
+              _goPage(DialogPage());
+            },
+          ),
+
         ],
       ),
     );

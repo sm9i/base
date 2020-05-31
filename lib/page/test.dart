@@ -1,14 +1,7 @@
-import 'dart:typed_data';
-
-import 'package:base/widget/app_bar.dart';
-import 'package:base/widget/dots_indicator.dart';
-import 'package:base/widget/image_list.dart';
-import 'package:base/widget/inth_widget.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'dart:ui';
 
-import 'package:flutter/physics.dart';
+import 'package:flutter/material.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -20,10 +13,6 @@ class _TestPageState extends State<TestPage> {
 
   @override
   void initState() {
-    List.generate(
-        10,
-        (index) => images.add(
-            "https://ss3.bdstatic.com/lPoZeXSm1A5BphGlnYG/skin/48$index.jpg"));
     super.initState();
   }
 
@@ -34,16 +23,80 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final physics = TextPhysic();
     return Scaffold(
-      appBar: BaseAppBar(
-        leading: Icon(Icons.chevron_left),
-        action: Icon(Icons.more_horiz),
-        title: Text('2'),
-        boxDecoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.blueAccent, Colors.blue])),
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.change_history),
+              onPressed: () {
+                print("22");
+                physics.setScroll(!physics.allowImplicitScrolling);
+              }),
+        ],
       ),
       backgroundColor: Colors.white,
+      body: ListView.builder(
+        physics: physics,
+        itemBuilder: (_, __) => TestWidget(),
+        itemCount: 30,
+      ),
+    );
+  }
+}
 
+class TextPhysic extends ScrollPhysics {
+  TextPhysic({ScrollPhysics parent}) : super(parent: parent);
+
+  @override
+  TextPhysic applyTo(ScrollPhysics ancestor) {
+    return TextPhysic(parent: buildParent(ancestor));
+  }
+
+  @override
+  bool shouldAcceptUserOffset(ScrollMetrics position) {
+    return isScroll;
+  }
+
+  bool isScroll = true;
+
+  void setScroll(bool isScroll) {
+    isScroll = isScroll;
+  }
+}
+
+//测试listView中 item高度变了之后其他item是否bulid
+
+//并不会
+class TestWidget extends StatefulWidget {
+  final int index;
+
+  const TestWidget({Key key, this.index}) : super(key: key);
+
+  @override
+  _TestWidgetState createState() => _TestWidgetState();
+}
+
+class _TestWidgetState extends State<TestWidget> {
+  double _height = 200;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _height = 300;
+        });
+      },
+      child: Container(
+        height: _height,
+        color: Color.fromARGB(
+          255,
+          math.Random.secure().nextInt(255),
+          math.Random.secure().nextInt(255),
+          math.Random.secure().nextInt(255),
+        ),
+      ),
     );
   }
 }
