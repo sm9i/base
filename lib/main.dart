@@ -7,6 +7,7 @@ import 'package:base/page/text_page.dart';
 import 'package:base/page/theme_page.dart';
 import 'package:base/page/web_view_page.dart';
 import 'package:base/widget/inth_widget.dart';
+import 'package:base/widget/route/route.dart';
 import 'package:base/widget/route/route_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -110,13 +111,13 @@ class _MyHomePageState extends State<MyHomePage>
               _goPage(DialogPage());
             },
           ),
-
         ],
       ),
     );
   }
 
   _goPage(Widget child) {
+    return Navigator.push(context, new CommonRoute(builder: (_) => child));
     return Navigator.push(
         context, new MaterialPageRoute(builder: (_) => child));
   }
